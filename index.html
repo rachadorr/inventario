@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSV Reader</title>
+</head>
+<body>
+  <input type="file" id="fileInput" accept=".csv">
+  <ul id="csvList"></ul>
+
+  <script>
+    let globalVariable = []; // Variável global para armazenar os valores das colunas 0 e 5
+
+    document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
+
+    function handleFileSelect(event) {
+      const file = event.target.files[0];
+
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const contents = e.target.result;
+          const lines = contents.split('\n');
+
+          const csvList = document.getElementById('csvList');
+          csvList.innerHTML = ''; // Limpa a lista antes de adicionar novos itens
+          globalVariable = []; // Limpa a variável global
+
+          for (let line of lines) {
+            const columns = line.split(';');
+            const listItem = document.createElement('li');
+            listItem.textContent = `Coluna 1: ${columns[0]}, Coluna 2: ${columns[1]}, Coluna 3: ${columns[2]}, Coluna 4: ${columns[3]}, Coluna 5: ${columns[4]}, Coluna 6: ${columns[5]}, Coluna 7: ${columns[6]}, Coluna 8: ${columns[7]}, Coluna 9: ${columns[8]}, Coluna 10: ${columns[9]}`;
+            csvList.appendChild(listItem);
+
+            // Armazena os valores das colunas 0 e 5 na variável global
+            globalVariable.push([columns[0], columns[5]]);
+          }
+
+          console.log('Variável global:', globalVariable); // Exibe a variável global no console
+        };
+
+        reader.readAsText(file);
+      } else {
+        alert('Nenhum arquivo selecionado.');
+      }
+    }
+  </script>
+</body>
+</html>
