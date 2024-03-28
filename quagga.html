@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leitor de Código de Barras</title>
+<script src="https://cdn.jsdelivr.net/npm/quagga"></script>
+</head>
+<body>
+  <h1>Leitor de Código de Barras</h1>
+  <button onclick="startScanner()">Iniciar Scanner</button>
+
+  <script>
+    function startScanner() {
+      Quagga.init({
+        inputStream: {
+          name: "Live",
+          type: "LiveStream",
+          target: document.querySelector("#barcode-scanner-container"),
+          constraints: {
+            facingMode: "environment" // Use a câmera traseira para dispositivos móveis
+          },
+        },
+        decoder: {
+          readers: ["ean_reader", "upc_reader"], // Tipos de código de barras suportados
+        },
+      }, function(err) {
+        if (err) {
+          console.error("Erro ao inicializar o Quagga:", err);
+          alert("Erro ao inicializar o Quagga. Verifique se a câmera está habilitada e tente novamente.");
+          return;
+        }
+        
+        console.log("Quagga inicializado com sucesso.");
+        Quagga.start();
+      });
+
+      Quagga.onDetected(function(result) {
+        alert("Código de barras lido: " + result.codeResult.code);
+        Quagga.stop();
+      });
+    }
+  </script>
+</body>
+</html>
