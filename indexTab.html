@@ -20,6 +20,14 @@
       color: green;
       font-weight: bold;
   }*/
+
+  tbody {
+  background-color: #e4f0f5;
+}
+thead {
+  background-color: #2c5e77;
+  color: #fff;
+}
 </style>
 
 
@@ -40,10 +48,16 @@
   <table id="csvTable" border="1">
     <thead>
       <tr>
-        <th>Patrimonio</th>
+        <th>Patrimonio Novo</th>
+        <th>Patrimonio Antigo</th>
         <th>Descrição</th>
-        <th>Patrimonio</th>
+            <th>Sim</th>
+            <th>Não</th>
+        <th>Patrimonio Novo</th>
+        <th>Patrimonio Antigo</th>
         <th>Descrição</th>
+        <th>Sim</th>
+        <th>Não</th>
       </tr>
     </thead>
     <tbody id="csvList"></tbody>
@@ -70,7 +84,10 @@
       console.log('Chamando função de conversão');
      // setTimeout(()=>{
      //   console.log('aguardou o tempo');
-        converteTexto(contents);
+        contents = contents.replaceAll("\"","");
+        let partes = contents.split('\n');
+        let parteDesejada = partes.slice(6).join('\n');
+        converteTexto(parteDesejada);
       //},5000);
         };
         
@@ -86,7 +103,7 @@
       const lines = contents.split('\n');
 
         const csvList = document.getElementById('csvList');
-        csvList.innerHTML = '1'; // Limpa a lista antes de adicionar novos itens
+        csvList.innerHTML = ''; // Limpa a lista antes de adicionar novos itens
         globalVariable = []; // Limpa a variável global
 
         for (line of lines) {
@@ -96,6 +113,7 @@
           for (let column of columns) {
               const newCell = document.createElement('td');
               newCell.textContent = column;
+              console.log('Cell'+newCell);
               newRow.appendChild(newCell);
             }
 
@@ -108,7 +126,8 @@
           listItem.textContent = `Coluna 0: ${columns[0]}, Coluna 2: ${columns[1]}, Coluna 3: ${columns[2]}, Coluna 4: ${columns[3]}, Coluna 5: ${columns[4]}, Coluna 6: ${columns[5]}, Coluna 7: ${columns[6]}, Coluna 8: ${columns[7]}, Coluna 9: ${columns[8]}, Coluna 10: ${columns[9]}`;
           */
           setTimeout(()=>{
-     //   console.log('aguardou o tempo');
+            console.log('aguardou o tempo');
+            //console.log(csvList);
           csvList.appendChild(newRow);
       },2000);
           
